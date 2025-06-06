@@ -1,0 +1,29 @@
+{
+  "name": "whatsapp-reminder-bot",
+  "version": "1.0.0",
+  "description": "A WhatsApp bot that sends event reminders from an iCloud calendar and collects responses",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "reminder",
+    "calendar",
+    "icloud"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "node-ical": "^0.20.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.30.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
