@@ -8,7 +8,7 @@ import fs from "fs";
 // const CALENDAR_URL = "https://p155-caldav.icloud.com/published/2/ODMwMjgxMTIxODMwMjgxMV1RMGDKLWDxbXoVzt3ZSShrqZ0a_LoUqtW6YoAKGeXo"; // <-- Replace with your iCloud public .ics URL
 
 const CALENDAR_URL = "webcal://p180-caldav.icloud.com/published/2/MjExNTY0MjE3MzIyMTE1Nm7Eqe-UNVzUFg3WAk2YWf8qNmbKhwXY03xEDdr-fi2C2X1Q3V3kmmxte1LfD5BMea5F2z_RucvfIP796qJw-VU"
-const ADMIN_PHONE = ""; //add your phone number
+const ADMIN_PHONE = "xxxxx"; //add your phone number
 
 // Configuration
 const CONFIG = {
