@@ -8,7 +8,7 @@ import fs from "fs";
 // const CALENDAR_URL = "https://p155-caldav.icloud.com/published/2/ODMwMjgxMTIxODMwMjgxMV1RMGDKLWDxbXoVzt3ZSShrqZ0a_LoUqtW6YoAKGeXo"; // <-- Replace with your iCloud public .ics URL
 
 const CALENDAR_URL = "webcal://p180-caldav.icloud.com/published/2/MjExNTY0MjE3MzIyMTE1Nm7Eqe-UNVzUFg3WAk2YWf8qNmbKhwXY03xEDdr-fi2C2X1Q3V3kmmxte1LfD5BMea5F2z_RucvfIP796qJw-VU"
-const ADMIN_PHONE = "xxxxxx"; //add your phone number
+const ADMIN_PHONE = ""; //add your phone number
 
 // Configuration
 const CONFIG = {
@@ -77,6 +77,26 @@ function saveResponse(eventId, response) {
   } catch (error) {
     console.error('Error saving response:', error);
   }
+}
+
+// Function to format date with timezone
+function formatDateWithTimezone(date) {
+  if (!date) return 'No date';
+  
+  // Get the timezone from the date object
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+  // Format the date with timezone
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZoneName: 'short',
+    timeZone: timezone
+  }).format(date);
 }
 
 // Function to extract phone number from event
@@ -164,7 +184,7 @@ async function getUpcomingEvents() {
       const event = parsed[k];
       if (event.type === "VEVENT" && event.start > now) {
         console.log('\nProcessing event:', event.summary);
-        console.log('Event time:', event.start.toLocaleString());
+        console.log('Event time:', formatDateWithTimezone(event.start));
         
         const eventId = event.uid;
         if (!wasSent(eventId, sentEvents) && isWithinNotificationWindow(event.start)) {
@@ -173,7 +193,7 @@ async function getUpcomingEvents() {
             upcomingEvents.push({
               id: eventId,
               summary: event.summary || 'No Title',
-              start: event.start.toLocaleString(),
+              start: formatDateWithTimezone(event.start),
               phone: phoneNumber,
             });
           } else {
@@ -211,6 +231,7 @@ client.on("qr", (qr) => {
 client.on("ready", async () => {
   console.log("WhatsApp client is ready!");
   console.log(`Mode: ${CONFIG.sendImmediately ? 'Immediate sending' : `${CONFIG.notificationWindow}-hour window`}`);
+  console.log(`Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`);
   
   try {
     // Get client info
@@ -249,7 +270,11 @@ client.on("ready", async () => {
         
         // Send event reminder
         console.log("Sending event reminder...");
-        await client.sendMessage(`${event.phone}@c.us`, `Event: ${event.summary}\nTime: ${event.start}\n\nPlease reply YES or NO`);
+        await client.sendMessage(`${event.phone}@c.us`, 
+          `Event: ${event.summary}\n` +
+          `Time: ${event.start}\n` +
+          `\nPlease reply YES or NO`
+        );
         console.log("Reminder sent");
         
         // Send to admin

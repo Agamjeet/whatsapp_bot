@@ -6,14 +6,16 @@
   "type": "module",
   "scripts": {
     "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf .wwebjs_auth .wwebjs_cache sent.json responses.json"
   },
   "keywords": [
     "whatsapp",
     "bot",
     "reminder",
     "calendar",
-    "icloud"
+    "icloud",
+    "automation"
   ],
   "author": "",
   "license": "ISC",
